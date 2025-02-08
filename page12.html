@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاسبه تعداد شاخه آهن</title>
+    <script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: right;
+            direction: rtl;
+        }
+        #calculationMethod {
+            font-size: 1.5em; /* توضیحات روش محاسبه دو برابر بزرگ‌تر */
+            white-space: pre-wrap; /* حفظ فاصله‌ها و خطوط جدید */
+        }
+        #dateTime {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script>
+        function calculateBranches() {
+            // دریافت ورودی‌ها
+            var weighedBranchesWeight = parseFloat(document.getElementById('weighedBranchesWeight').value);
+            var totalWeight = parseFloat(document.getElementById('totalWeight').value);
+            var numberOfWeighedBranches = parseFloat(document.getElementById('numberOfWeighedBranches').value);
+            
+            // بررسی اعتبار ورودی‌ها
+            if (isNaN(weighedBranchesWeight) || isNaN(totalWeight) || isNaN(numberOfWeighedBranches) || 
+                weighedBranchesWeight <= 0 || totalWeight <= 0 || numberOfWeighedBranches <= 0) {
+                alert('لطفاً مقادیر معتبر وارد کنید.');
+                return;
+            }
+            
+            // محاسبه وزن هر شاخه
+            var branchWeight = weighedBranchesWeight / numberOfWeighedBranches;
+            
+            // محاسبه تعداد شاخه‌ها در کل محموله
+            var totalBranches = totalWeight / branchWeight;
+            
+            // نمایش نتیجه
+            document.getElementById('result').innerText = 'تعداد شاخه‌های آهن: ' + Math.floor(totalBranches);
+            
+            // نمایش روش محاسبه
+            document.getElementById('calculationMethod').innerText = 
+                'روش محاسبه:\n' +
+                '1. وزن هر شاخه = وزن شاخه‌های وزن‌کشی‌شده / تعداد شاخه‌های وزن‌کشی‌شده\n' +
+                '   وزن هر شاخه = ' + weighedBranchesWeight + ' / ' + numberOfWeighedBranches + ' = ' + branchWeight.toFixed(2) + ' کیلوگرم\n' +
+                '2. تعداد کل شاخه‌ها = وزن کل محموله / وزن هر شاخه\n' +
+                '   تعداد کل شاخه‌ها = ' + totalWeight + ' / ' + branchWeight.toFixed(2) + ' = ' + Math.floor(totalBranches) + ' شاخه';
+        }
+
+        function printPage() {
+            window.print(); // پرینت صفحه
+        }
+
+        function updateDateTime() {
+            var now = new Date();
+            var jalaaliDate = jalaali.toJalaali(now);
+            var time = now.toLocaleTimeString('fa-IR');
+            document.getElementById('dateTime').innerText = 
+                'تاریخ: ' + jalaaliDate.jy + '/' + jalaaliDate.jm + '/' + jalaaliDate.jd + ' - ساعت: ' + time;
+        }
+
+        // به‌روزرسانی تاریخ و ساعت هر ثانیه
+        setInterval(updateDateTime, 1000);
+        window.onload = updateDateTime; // نمایش تاریخ و ساعت هنگام بارگذاری صفحه
+    </script>
+</head>
+<body>
+    <div id="dateTime"></div>
+    <h1>محاسبه تعداد شاخه آهن</h1>
+    <label for="weighedBranchesWeight">وزن شاخه‌های وزن‌کشی‌شده (کیلوگرم):</label>
+    <input type="number" id="weighedBranchesWeight" required>
+    <br><br>
+    <label for="numberOfWeighedBranches">تعداد شاخه‌های وزن‌کشی‌شده:</label>
+    <input type="number" id="numberOfWeighedBranches" required>
+    <br><br>
+    <label for="totalWeight">وزن کل محموله (کیلوگرم):</label>
+    <input type="number" id="totalWeight" required>
+    <br><br>
+    <button onclick="calculateBranches()">محاسبه</button>
+    <button onclick="printPage()">پرینت صفحه</button>
+    <h2 id="result"></h2>
+    <pre id="calculationMethod"></pre>
+</body>
+</html>

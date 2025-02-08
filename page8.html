@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>کد نویسی طرح و اجرا :لجستیک آذین خودرو</title>
+    <title>محاسبه مانده تا انقضا</title>
+    <style>
+        body {
+                 text-align: center;
+            background-color: #;
+            padding: 30px;
+            margin-bottom: 20px;
+            border: 3px solid ORANGE;
+            color: BLACK;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr.expired {
+            background-color: #ffcccc; /* قرمز برای تاریخ‌های گذشته */
+        }
+        tr.warning {
+            background-color: #ffffcc; /* زرد برای کمتر از ۳۰ روز */
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+        .buttons {
+            margin-bottom: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>محاسبه مانده تا انقضا</h1>
+    <input type="file" id="excelFile" accept=".xlsx, .xls" />
+    <div class="buttons">
+        <button onclick="exportToPDF()">خروجی PDF</button>
+        <button onclick="exportToExcel()">خروجی اکسل</button>
+        <button onclick="cancel()">انصراف</button>
+    </div>
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>تاریخ انقضا</th>
+                <th>کد کالا</th>
+                <th>کالا</th>
+                <th>بچ</th>
+                <th>واحد کالا</th>
+                <th>وارده</th>
+                <th>تاریخ ورود</th>
+                <th>مانده</th>
+                <th>تامین کننده</th>
+                <th>مانده تا انقضا</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- داده‌ها اینجا نمایش داده می‌شوند -->
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        document.getElementById('excelFile').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                    // پاک کردن جدول قبلی
+                    const tableBody = document.querySelector('#dataTable tbody');
+                    tableBody.innerHTML = '';
+
+                    // شروع از سطر دوم (ردیف اول عنوان‌هاست)
+                    for (let i = 1; i < json.length; i++) {
+                        const row = json[i];
+                        const expiryDate = row[0]; // تاریخ انقضا (شمسی)
+                        const daysRemaining = calculateDaysRemaining(expiryDate);
+
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td>${row[0]}</td>
+                            <td>${row[1]}</td>
+                            <td>${row[2]}</td>
+                            <td>${row[3]}</td>
+                            <td>${row[4]}</td>
+                            <td>${row[5]}</td>
+                            <td>${row[6]}</td>
+                            <td>${row[7]}</td>
+                            <td>${row[8]}</td>
+                            <td>${daysRemaining}</td>
+                        `;
+
+                        // تغییر رنگ سطر بر اساس تاریخ انقضا
+                        if (daysRemaining < 0) {
+                            newRow.classList.add('expired'); // قرمز برای تاریخ‌های گذشته
+                        } else if (daysRemaining < 30) {
+                            newRow.classList.add('warning'); // زرد برای کمتر از ۳۰ روز
+                        }
+
+                        tableBody.appendChild(newRow);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        function calculateDaysRemaining(expiryDate) {
+            // تبدیل تاریخ شمسی به میلادی
+            const [year, month, day] = expiryDate.split('/').map(Number);
+            const gregorianDate = jalaali.toGregorian(year, month, day);
+
+            // ایجاد تاریخ میلادی
+            const expiry = new Date(gregorianDate.gy, gregorianDate.gm - 1, gregorianDate.gd);
+            const today = new Date();
+
+            // محاسبه تفاوت روزها
+            const timeDiff = expiry - today;
+            const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+            return daysDiff;
+        }
+
+        function exportToPDF() {
+            const doc = new jsPDF();
+            const table = document.getElementById('dataTable');
+            doc.autoTable({ html: table });
+            doc.save('table.pdf');
+        }
+
+        function exportToExcel() {
+            const table = document.getElementById('dataTable');
+            const workbook = XLSX.utils.table_to_book(table);
+            XLSX.writeFile(workbook, 'table.xlsx');
+        }
+
+        function cancel() {
+            document.getElementById('excelFile').value = ''; // پاک کردن فایل انتخاب شده
+            document.querySelector('#dataTable tbody').innerHTML = ''; // پاک کردن جدول
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Excel Sheet Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #file-input {
+      margin: 20px 0;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      padding: 10px;
+      background-color: #f1f1f1;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+    li a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+    li a:hover {
+      text-decoration: underline;
+    }
+    #sheet-content {
+      display: none;
+      text-align: right;
+      direction: rtl;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-height: 400px;
+      overflow: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: right;
+    }
+    table th {
+      background-color: #f2f2f2;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Excel File</h1>
+    <input type="file" id="file-input" accept=".xls, .xlsx">
+    <h2>Sheet Names:</h2>
+    <ul id="sheet-list"></ul>
+    <div id="sheet-content"></div>
+    <div class="buttons" id="buttons" style="display: none;">
+      <button id="print-sheet">Print</button>
+      <button id="back-to-list">Back to List</button>
+    </div>
+  </div>
+
+  <!-- اضافه کردن SheetJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    const fileInput = document.getElementById('file-input');
+    const sheetList = document.getElementById('sheet-list');
+    const sheetContent = document.getElementById('sheet-content');
+    const buttonsDiv = document.getElementById('buttons');
+    const printSheetButton = document.getElementById('print-sheet');
+    const backToListButton = document.getElementById('back-to-list');
+    let workbook; // ذخیره فایل اکسل
+    let currentSheetName = ''; // ذخیره نام شیت فعلی
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = new Uint8Array(e.target.result);
+        workbook = XLSX.read(data, { type: 'array' });
+
+        // استخراج نام شیت‌ها
+        const sheetNames = workbook.SheetNames;
+
+        // نمایش نام شیت‌ها به صورت هایپرلینک
+        sheetList.innerHTML = '';
+        sheetContent.style.display = 'none';
+        buttonsDiv.style.display = 'none';
+
+        sheetNames.forEach(sheet => {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = "#";
+          link.textContent = sheet;
+          link.addEventListener('click', () => displaySheetContent(sheet));
+          li.appendChild(link);
+          sheetList.appendChild(li);
+        });
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
+
+    function displaySheetContent(sheetName) {
+      const sheet = workbook.Sheets[sheetName];
+      const json = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+      // ذخیره نام شیت فعلی
+      currentSheetName = sheetName;
+
+      // پنهان کردن لیست و نمایش محتوا
+      sheetList.style.display = 'none';
+      sheetContent.style.display = 'block';
+      buttonsDiv.style.display = 'block';
+
+      // نمایش محتوای شیت در قالب جدول
+      sheetContent.innerHTML = '<h3>' + sheetName + '</h3>';
+      if (json.length === 0) {
+        sheetContent.innerHTML += '<p>No data found in this sheet.</p>';
+        return;
+      }
+
+      const table = document.createElement('table');
+      json.forEach((row, rowIndex) => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement(rowIndex === 0 ? 'th' : 'td');
+          td.textContent = cell || '';
+          tr.appendChild(td);
+        });
+        table.appendChild(tr);
+      });
+      sheetContent.appendChild(table);
+    }
+
+    // دکمه پرینت
+    printSheetButton.addEventListener('click', () => {
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Sheet</title>
+            <style>
+              body { font-family: Arial, sans-serif; direction: rtl; text-align: right; }
+              table { width: 100%; border-collapse: collapse; }
+              table th, table td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+              table th { background-color: #f2f2f2; }
+            </style>
+          </head>
+          <body>
+            ${sheetContent.innerHTML}
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.print();
+    });
+
+    // دکمه بازگشت به لیست
+    backToListButton.addEventListener('click', () => {
+      sheetContent.style.display = 'none';
+      buttonsDiv.style.display = 'none';
+      sheetList.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

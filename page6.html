@@ -1,0 +1,302 @@
+<!DOCTYPE html><html dir="rtl" lang="fa"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ جستجوی پیشرفته اکسل ✨</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        body {
+            background-image: url("data:image/gif;base64,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");
+            font-family: "Tahoma", "Comic Sans MS", cursive;
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .date-time {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #FFFF00;
+            padding: 10px;
+            border: 3px solid #FF0000;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border: 5px dashed #FF00FF;
+            border-radius: 15px;
+            box-shadow: 10px 10px 0 #00FF00;
+        }
+
+        .upload-section {
+            text-align: center;
+            padding: 20px;
+            border: 3px dashed #FF0000;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #FFFFA0;
+        }
+
+        h2 {
+            animation: rainbow 2s linear infinite;
+            font-size: 32px;
+            text-shadow: 2px 2px #000000;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 3px solid #FF00FF;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #FFFFFF;
+        }
+
+        .column-filter {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px;
+            background: linear-gradient(45deg, #FF0000, #00FF00);
+            color: white;
+            border-radius: 20px;
+            cursor: pointer;
+            border: 2px solid #FFFFFF;
+            transition: transform 0.3s;
+        }
+
+        .column-filter:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .column-filter.active {
+            background: linear-gradient(45deg, #00FF00, #0000FF);
+            animation: pulse 1s infinite;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #FFFFFF;
+        }
+
+        th {
+            background: linear-gradient(45deg, #FF00FF, #00FFFF);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #FF0000;
+        }
+
+        td {
+            padding: 8px;
+            border: 1px solid #FF00FF;
+            text-align: right;
+        }
+
+        .highlight {
+            background-color: #FFFF00;
+            font-weight: bold;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            color: #FF0000;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: #FF0000; }
+            33% { color: #00FF00; }
+            66% { color: #0000FF; }
+            100% { color: #FF0000; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        marquee {
+            background: #000000;
+            color: #FFFFFF;
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="date-time" id="datetime"></div>
+
+    <div class="container">
+        <marquee scrollamount="5">✨ کدنویسی توسط واحد لجستیک آذین خودرو انجام شده.ابزار جادویی جستجوی اکسل خوش آمدید! ✨</marquee>
+        
+        <div class="upload-section">
+            <h2>آپلود فایل اکسل</h2>
+            <input type="file" id="fileInput" accept=".xlsx,.xls">
+            <p>فایل اکسل خود را انتخاب کنید</p>
+        </div>
+
+        <div class="search-section" style="display:none;">
+            <input type="text" class="search-box" placeholder="جستجو...">
+            <div class="column-filters"></div>
+        </div>
+
+        <div class="loading">
+            در حال پردازش...
+            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH+GkNyZWF0ZWQgd2l0aCBhamF4bG9hZC5pbmZvACH5BAAKAAAAIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQACgABACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkEAAoAAgAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkEAAoAAwAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkEAAoABAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQACgAFACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQACgAGACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAAKAAcALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==">
+        </div>
+
+        <table id="dataTable"></table>
+    </div>
+
+    <script>
+        // Original JavaScript code remains the same
+        let workbookData = [];
+        let columns = [];
+
+        function updateDateTime() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            
+            const formatter = new Intl.DateTimeFormat('fa-IR', options);
+            document.getElementById('datetime').innerHTML = formatter.format(now);
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+
+        $(document).ready(function() {
+            $('#fileInput').on('change', function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+
+                $('.loading').show();
+
+                reader.onload = function(e) {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    workbookData = XLSX.utils.sheet_to_json(firstSheet);
+
+                    columns = Object.keys(workbookData[0]);
+                    createColumnFilters();
+                    
+                    $('.search-section').show();
+                    $('.loading').hide();
+                };
+
+                reader.readAsArrayBuffer(file);
+            });
+
+            $('.search-box').on('input', function() {
+                searchData();
+            });
+        });
+
+        function createColumnFilters() {
+            const filterContainer = $('.column-filters');
+            filterContainer.empty();
+
+            columns.forEach(column => {
+                const filter = $('<div>')
+                    .addClass('column-filter active')
+                    .text(column)
+                    .click(function() {
+                        $(this).toggleClass('active');
+                        searchData();
+                    });
+                filterContainer.append(filter);
+            });
+        }
+
+        function searchData() {
+            const searchText = $('.search-box').val().toLowerCase();
+            const activeColumns = $('.column-filter.active').map(function() {
+                return $(this).text();
+            }).get();
+
+            if (!searchText) {
+                $('#dataTable').hide();
+                return;
+            }
+
+            const filteredData = workbookData.filter(row => {
+                return activeColumns.some(column => {
+                    const cellValue = String(row[column]).toLowerCase();
+                    return cellValue.includes(searchText);
+                });
+            });
+
+            displayResults(filteredData, searchText);
+        }
+
+        function displayResults(data, searchText) {
+            const table = $('#dataTable');
+            table.empty();
+
+            if (data.length === 0) {
+                table.hide();
+                return;
+            }
+
+            const header = $('<tr>');
+            columns.forEach(column => {
+                header.append($('<th>').text(column));
+            });
+            table.append(header);
+
+            data.forEach(row => {
+                const tr = $('<tr>');
+                columns.forEach(column => {
+                    const td = $('<td>');
+                    const cellValue = String(row[column]);
+                    
+                    if (cellValue.toLowerCase().includes(searchText.toLowerCase())) {
+                        const highlightedText = cellValue.replace(
+                            new RegExp(searchText, 'gi'),
+                            match => `<span class="highlight">${match}</span>`
+                        );
+                        td.html(highlightedText);
+                    } else {
+                        td.text(cellValue);
+                    }
+                    
+                    tr.append(td);
+                });
+                table.append(tr);
+            });
+
+            table.show();
+        }
+    </script>
+
+
+</body></html>

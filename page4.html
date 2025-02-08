@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پردازش فایل اکسل و آماده‌سازی برای پرینت</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+    <h1>آماده‌سازی فایل اکسل برای پرینت</h1>
+    <input type="file" id="fileInput" accept=".xlsx, .xls" />
+    <button onclick="printAllSheets()">پرینت تمام شیت‌ها</button>
+    <div id="output"></div>
+
+    <script>
+        let workbook;
+
+        // تابع برای خواندن فایل اکسل
+        document.getElementById('fileInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                workbook = XLSX.read(data, { type: 'array' });
+                displaySheets(workbook);
+            };
+            reader.readAsArrayBuffer(file);
+        });
+
+        // تابع برای نمایش تمام شیت‌ها در صفحه
+        function displaySheets(workbook) {
+            const output = document.getElementById('output');
+            output.innerHTML = ''; // پاک کردن محتوای قبلی
+
+            workbook.SheetNames.forEach(sheetName => {
+                const sheet = workbook.Sheets[sheetName];
+                const html = XLSX.utils.sheet_to_html(sheet);
+                const sheetDiv = document.createElement('div');
+                sheetDiv.innerHTML = `<h2>${sheetName}</h2>${html}`;
+                output.appendChild(sheetDiv);
+            });
+        }
+
+        // تابع برای پرینت تمام شیت‌ها
+        function printAllSheets() {
+            if (!workbook) {
+                alert('لطفاً ابتدا یک فایل اکسل انتخاب کنید.');
+                return;
+            }
+
+            const printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>پرینت شیت‌ها</title>');
+            printWindow.document.write('<style>table { width: 100%; border-collapse: collapse; } th, td { border: 1px solid #000; padding: 8px; text-align: center; } .page-break { page-break-after: always; }</style>');
+            printWindow.document.write('</head><body>');
+
+            workbook.SheetNames.forEach((sheetName, index) => {
+                const sheet = workbook.Sheets[sheetName];
+                const html = XLSX.utils.sheet_to_html(sheet);
+                printWindow.document.write(`<div><h2>${sheetName}</h2>${html}</div>`);
+                if (index < workbook.SheetNames.length - 1) {
+                    printWindow.document.write('<div class="page-break"></div>');
+                }
+            });
+
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</body>
+</html>

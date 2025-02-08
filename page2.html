@@ -1,0 +1,312 @@
+<!DOCTYPE html><html dir="rtl" lang="fa"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <title>ابزار ویلوکاپ آذین خودرو</title>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v27.2.2/dist/Vazir.woff2') format('woff2');
+        }
+
+        body {
+            background-image: url("data:image/gif;base64,R0lGODlhFAAUAIAAAP////8AAP///yH5BAAAAAAALAAAAAAUABQAAAI5jI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqnVAAAOw==");
+            font-family: 'Vazir', sans-serif;
+            color: lime;
+            direction: rtl;
+        }
+        
+        .header {
+            text-align: center;
+            background-color: #000080;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 3px solid yellow;
+            color: white;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: navy;
+            border: 5px ridge pink;
+        }
+        
+        h1 {
+            text-align: center;
+            color: yellow;
+            text-shadow: 2px 2px red;
+            animation: blink 1s infinite;
+        }
+        
+        .upload-section {
+            margin: 20px;
+            padding: 10px;
+            border: 3px dashed lime;
+            text-align: center;
+        }
+        
+        button {
+            background-color: lime;
+            color: navy;
+            border: 3px outset silver;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            font-family: 'Vazir', sans-serif;
+        }
+        
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid yellow;
+            min-height: 100px;
+        }
+        
+        select {
+            direction: rtl;
+            font-family: 'Vazir', sans-serif;
+            padding: 5px;
+            margin: 10px;
+            display: none;
+            width: 200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid yellow;
+            padding: 8px;
+            text-align: right;
+            color: white;
+        }
+        
+        marquee {
+            background-color: red;
+            color: white;
+            padding: 5px;
+        }
+
+        .export-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .column-select {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        کدنویسی شده توسط واحد لجستیک آذین خودرو - هادی شوقی
+    </div>
+
+    <marquee scrollamount="10">!!! به ابزار شگفت انگیز ویلوکاپ خوش آمدید !!!</marquee>
+    
+    <div class="container">
+        <h1>ابزار ویلوکاپ جادویی!</h1>
+        
+        <div class="upload-section">
+            <h3 style="color: yellow;">مرحله ۱: فایل اکسل اول را آپلود کنید</h3>
+            <input type="file" id="file1" accept=".xlsx, .xls" onchange="handleFile1()">
+        </div>
+        
+        <div class="upload-section">
+            <h3 style="color: yellow;">مرحله ۲: فایل اکسل دوم را آپلود کنید</h3>
+            <input type="file" id="file2" accept=".xlsx, .xls" onchange="handleFile2()">
+        </div>
+
+        <div class="upload-section">
+            <h3 style="color: yellow;">مرحله ۳: تنظیمات ویلوکاپ را مشخص کنید</h3>
+            <div class="column-select">
+                <label>ستون جستجو در فایل اول:</label>
+                <select id="lookupColumn1"></select>
+            </div>
+            <div class="column-select">
+                <label>ستون جستجو در فایل دوم:</label>
+                <select id="lookupColumn2"></select>
+            </div>
+            <div class="column-select">
+                <label>ستون مقدار برگشتی از فایل دوم:</label>
+                <select id="returnColumn"></select>
+            </div>
+            <div class="column-select">
+                <label>نام ستون جدید:</label>
+                <input type="text" id="newColumnName" placeholder="نام ستون جدید" style="padding: 5px; font-family: 'Vazir', sans-serif;">
+            </div>
+        </div>
+        
+        <button onclick="processFiles()">انجام عملیات ویلوکاپ!</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script>
+        let workbook1 = null;
+        let workbook2 = null;
+        let columns1 = [];
+        let columns2 = [];
+        let result = [];
+        
+        function handleFile1() {
+            const file = document.getElementById('file1').files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                workbook1 = XLSX.read(data, {type: 'array'});
+                
+                const sheet = workbook1.Sheets[workbook1.SheetNames[0]];
+                const data1 = XLSX.utils.sheet_to_json(sheet);
+                if(data1.length > 0) {
+                    columns1 = Object.keys(data1[0]);
+                    updateColumnSelects();
+                }
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+        
+        function handleFile2() {
+            const file = document.getElementById('file2').files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                workbook2 = XLSX.read(data, {type: 'array'});
+                
+                const sheet = workbook2.Sheets[workbook2.SheetNames[0]];
+                const data2 = XLSX.utils.sheet_to_json(sheet);
+                if(data2.length > 0) {
+                    columns2 = Object.keys(data2[0]);
+                    updateColumnSelects();
+                }
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        function updateColumnSelects() {
+            const lookupSelect1 = document.getElementById('lookupColumn1');
+            const lookupSelect2 = document.getElementById('lookupColumn2');
+            const returnSelect = document.getElementById('returnColumn');
+
+            // Only update if both files are loaded
+            if (!columns1.length || !columns2.length) return;
+
+            // Show all selects
+            lookupSelect1.style.display = 'block';
+            lookupSelect2.style.display = 'block';
+            returnSelect.style.display = 'block';
+
+            // Update first file columns
+            lookupSelect1.innerHTML = '<option value="">انتخاب ستون</option>';
+            columns1.forEach(column => {
+                const option = document.createElement('option');
+                option.value = column;
+                option.textContent = column;
+                lookupSelect1.appendChild(option);
+            });
+
+            // Update second file columns
+            lookupSelect2.innerHTML = '<option value="">انتخاب ستون</option>';
+            returnSelect.innerHTML = '<option value="">انتخاب ستون</option>';
+            columns2.forEach(column => {
+                const option1 = document.createElement('option');
+                option1.value = column;
+                option1.textContent = column;
+                lookupSelect2.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = column;
+                option2.textContent = column;
+                returnSelect.appendChild(option2);
+            });
+        }
+
+        function exportToExcel() {
+            const ws = XLSX.utils.json_to_sheet(result);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Results");
+            XLSX.writeFile(wb, "vlookup_result.xlsx");
+        }
+        
+        function processFiles() {
+            if (!workbook1 || !workbook2) {
+                alert("لطفا هر دو فایل اکسل را آپلود کنید!");
+                return;
+            }
+
+            const lookupColumn1 = document.getElementById('lookupColumn1').value;
+            const lookupColumn2 = document.getElementById('lookupColumn2').value;
+            const returnColumn = document.getElementById('returnColumn').value;
+            const newColumnName = document.getElementById('newColumnName').value || 'نتیجه_ویلوکاپ';
+
+            if (!lookupColumn1 || !lookupColumn2 || !returnColumn) {
+                alert("لطفا تمام ستون‌ها را انتخاب کنید!");
+                return;
+            }
+            
+            const sheet1 = workbook1.Sheets[workbook1.SheetNames[0]];
+            const sheet2 = workbook2.Sheets[workbook2.SheetNames[0]];
+            
+            const data1 = XLSX.utils.sheet_to_json(sheet1);
+            const data2 = XLSX.utils.sheet_to_json(sheet2);
+            
+            result = data1.map(row => {
+                const lookupValue = row[lookupColumn1];
+                const matchingRow = data2.find(r => r[lookupColumn2] === lookupValue);
+                return {
+                    ...row,
+                    [newColumnName]: matchingRow ? matchingRow[returnColumn] : 'نتیجه یافت نشد'
+                };
+            });
+            
+            displayResult(result);
+        }
+        
+        function displayResult(result) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h3 style="color: yellow;">نتیجه ویلوکاپ:</h3>';
+            
+            if (result.length === 0) {
+                resultDiv.innerHTML += '<p>هیچ نتیجه‌ای یافت نشد.</p>';
+                return;
+            }
+
+            const table = document.createElement('table');
+            
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            Object.keys(result[0]).forEach(key => {
+                const th = document.createElement('th');
+                th.textContent = key;
+                headerRow.appendChild(th);
+            });
+            
+            result.forEach(row => {
+                const tr = table.insertRow();
+                Object.values(row).forEach(value => {
+                    const td = tr.insertCell();
+                    td.textContent = value || 'N/A';
+                });
+            });
+            
+            resultDiv.appendChild(table);
+
+            const exportButton = document.createElement('button');
+            exportButton.textContent = 'دانلود نتایج (Excel)';
+            exportButton.className = 'export-btn';
+            exportButton.onclick = exportToExcel;
+            resultDiv.appendChild(exportButton);
+        }
+    </script>
+
+
+</body></html>

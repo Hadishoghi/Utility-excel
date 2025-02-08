@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفترچه تلفن هوشمند</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v27.2.2/dist/Vazir.woff2') format('woff2');
+        }
+
+        * {
+            font-family: 'Vazir', sans-serif;
+        }
+
+        :root {
+            --primary-color: #4a90e2;
+            --bg-light: #f0f2f5;
+            --bg-dark: #1a1a1a;
+            --card-light: rgba(255, 255, 255, 0.9);
+            --card-dark: rgba(30, 30, 30, 0.9);
+        }
+
+        body {
+            transition: background-color 0.3s ease;
+            width: 800px;
+            height: 600px;
+            overflow: auto;
+        }
+
+        .theme-light {
+            background-color: var(--bg-light);
+            color: #333;
+        }
+
+        .theme-dark {
+            background-color: var(--bg-dark);
+            color: #fff;
+        }
+
+        .glass-card {
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .theme-light .glass-card {
+            background: var(--card-light);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .theme-dark .glass-card {
+            background: var(--card-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .contact-category {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-family { border-right: 4px solid #ff6b6b; }
+        .category-friends { border-right: 4px solid #4ecdc4; }
+        .category-colleagues { border-right: 4px solid #45b7d1; }
+        .category-others { border-right: 4px solid #96ceb4; }
+
+        .search-box {
+            transition: all 0.3s ease;
+        }
+
+        .btn {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 8px 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .theme-light .background-animation {
+            background: linear-gradient(45deg, #f3f4f6 25%, transparent 25%) -50px 0,
+                        linear-gradient(-45deg, #f3f4f6 25%, transparent 25%) -50px 0,
+                        linear-gradient(45deg, transparent 75%, #f3f4f6 75%) -50px 0,
+                        linear-gradient(-45deg, transparent 75%, #f3f4f6 75%) -50px 0;
+            background-size: 100px 100px;
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        .theme-dark .background-animation {
+            background: linear-gradient(45deg, #2a2a2a 25%, transparent 25%) -50px 0,
+                        linear-gradient(-45deg, #2a2a2a 25%, transparent 25%) -50px 0,
+                        linear-gradient(45deg, transparent 75%, #2a2a2a 75%) -50px 0,
+                        linear-gradient(-45deg, transparent 75%, #2a2a2a 75%) -50px 0;
+            background-size: 100px 100px;
+            animation: backgroundMove 20s linear infinite;
+        }
+
+        @keyframes backgroundMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* لوگو و عنوان آذین خودرو */
+        .header-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header-logo img {
+            max-width: 150px;
+            margin-bottom: 10px;
+        }
+
+        .header-logo h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body
+body {
+    display: flex;
+    justify-content: center; /*مرکز افقی*/
+    align-items: center; /*مرکز عمودی*/
+    min-height: 100vh; /*برای اطمینان از اینکه محتوا در کل ارتفاع صفحه قرار می گیرد*/
+    margin: 0; /* حذف حاشیه پیش فرض */
+}
+ class="theme-light min-h-screen p-4">
+    <div class="background-animation"></div>
+    
+    <!-- لوگو و عنوان آذین خودرو -->
+    <div class="header-logo">
+        <img src="images/logo.png" alt="لوگو آذین خودرو">
+        <h1>آذین خودرو</h1>
+           <h1>واحد لجستیک</h1>
+              <h1>آپدیت زمستان 1403</h1>
+    </div>
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="glass-card p-6 mb-6">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-3xl font-bold">دفترچه تلفن</h1>
+                <button id="themeToggle" class="btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+
+            <div class="flex flex-wrap gap-4 mb-6">
+                <button id="addContactBtn" class="btn bg-blue-500 text-white">
+                    <i class="fas fa-plus ml-2"></i>افزودن مخاطب
+                </button>
+                <button id="exportBtn" class="btn bg-green-500 text-white">
+                    <i class="fas fa-file-export ml-2"></i>اکسپورت
+                </button>
+                <button id="importBtn" class="btn bg-purple-500 text-white">
+                    <i class="fas fa-file-import ml-2"></i>ایمپورت
+                </button>
+                <button id="fullScreenBtn" class="btn bg-yellow-500 text-white">
+                    <i class="fas fa-expand ml-2"></i>باز کردن تمام صفحه
+                </button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+                <div class="flex items-center gap-2">
+                    <button id="playMusic" class="btn bg-pink-500 text-white">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button id="stopMusic" class="btn bg-red-500 text-white">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="relative mb-6">
+                <input type="text" id="searchBox" class="w-full p-3 pr-10 rounded-lg border search-box" placeholder="جستجوی مخاطب...">
+                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="contactList">
+                <!-- Contact items will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Contact Modal -->
+    <div id="addContactModal" class="modal">
+        <div class="modal-content glass-card p-6">
+            <h2 class="text-2xl font-bold mb-4">افزودن مخاطب جدید</h2>
+            <form id="addContactForm">
+                <div class="mb-4">
+                    <label class="block mb-2">نام و نام خانوادگی</label>
+                    <input type="text" id="contactName" required="" class="w-full p-2 rounded border">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">شماره تلفن</label>
+                    <input type="tel" id="contactPhone" required="" class="w-full p-2 rounded border">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">دسته‌بندی</label>
+                    <select id="contactCategory" class="w-full p-2 rounded border">
+                        <option value="family">خانواده</option>
+                        <option value="friends">دوستان</option>
+                        <option value="colleagues" selected>همکاران</option>
+                        <option value="others">سایر</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="submit" class="btn bg-green-500 text-white">ذخیره</button>
+                    <button type="button" class="btn bg-gray-500 text-white" onclick="closeModal()">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Contact Modal -->
+    <div id="editContactModal" class="modal">
+        <div class="modal-content glass-card p-6">
+            <h2 class="text-2xl font-bold mb-4">ویرایش مخاطب</h2>
+            <form id="editContactForm">
+                <input type="hidden" id="editContactId">
+                <div class="mb-4">
+                    <label class="block mb-2">نام و نام خانوادگی</label>
+                    <input type="text" id="editContactName" required="" class="w-full p-2 rounded border">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">شماره تلفن</label>
+                    <input type="tel" id="editContactPhone" required="" class="w-full p-2 rounded border">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">دسته‌بندی</label>
+                    <select id="editContactCategory" class="w-full p-2 rounded border">
+                        <option value="family">خانواده</option>
+                        <option value="friends">دوستان</option>
+                        <option value="colleagues">همکاران</option>
+                        <option value="others">سایر</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-2">
+                    <button type="submit" class="btn bg-green-500 text-white">بروزرسانی</button>
+                    <button type="button" class="btn bg-gray-500 text-white" onclick="closeEditModal()">انصراف</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- موزیک پس‌زمینه -->
+    <audio id="backgroundMusic" loop>
+        <source src="background-music.mp3" type="audio/mpeg">
+        مرورگر شما از این فرمت صوتی پشتیبانی نمی‌کند.
+    </audio>
+
+    <script>
+        // Initialize contacts from localStorage or use default
+        let contacts = JSON.parse(localStorage.getItem('contacts')) || [
+            { id: 1, name: "علی محمدی", phone: "09123456789", category: "family" },
+            { id: 2, name: "سارا احمدی", phone: "09187654321", category: "friends" },
+            { id: 3, name: "رضا کریمی", phone: "09198765432", category: "colleagues" },
+            { id: 4, name: "مریم حسینی", phone: "09167890123", category: "others" }
+        ];
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const searchBox = document.getElementById('searchBox');
+        const contactList = document.getElementById('contactList');
+        const music = document.getElementById('backgroundMusic');
+        const playMusic = document.getElementById('playMusic');
+        const stopMusic = document.getElementById('stopMusic');
+        const addContactBtn = document.getElementById('addContactBtn');
+        const addContactModal = document.getElementById('addContactModal');
+        const editContactModal = document.getElementById('editContactModal');
+        const addContactForm = document.getElementById('addContactForm');
+        const editContactForm = document.getElementById('editContactForm');
+        const importBtn = document.getElementById('importBtn');
+        const exportBtn = document.getElementById('exportBtn');
+        const importFile = document.getElementById('importFile');
+        const fullScreenBtn = document.getElementById('fullScreenBtn');
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('theme-dark');
+            document.body.classList.toggle('theme-light');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        // Search Functionality
+        searchBox.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            displayContacts(searchTerm);
+        });
+
+        // Music Controls
+        playMusic.addEventListener('click', () => music.play());
+        stopMusic.addEventListener('click', () => {
+            music.pause();
+            music.currentTime = 0;
+        });
+
+        // پخش خودکار موزیک پس از اولین تعامل کاربر
+        document.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                playMusic.style.display = 'none';
+                stopMusic.style.display = 'inline-block';
+            }
+        }, { once: true });
+
+        // Add Contact Modal
+        addContactBtn.addEventListener('click', () => {
+            addContactModal.style.display = 'block';
+        });
+
+        function closeModal() {
+            addContactModal.style.display = 'none';
+            addContactForm.reset();
+        }
+
+        function closeEditModal() {
+            editContactModal.style.display = 'none';
+            editContactForm.reset();
+        }
+
+        // Add Contact Form Submit
+        addContactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newContact = {
+                id: Date.now(),
+                name: document.getElementById('contactName').value,
+                phone: document.getElementById('contactPhone').value,
+                category: document.getElementById('contactCategory').value
+            };
+            contacts.push(newContact);
+            saveContacts();
+            displayContacts(searchBox.value.toLowerCase());
+            closeModal();
+        });
+
+        // Edit Contact Form Submit
+        editContactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editContactId').value);
+            const index = contacts.findIndex(contact => contact.id === id);
+            
+            contacts[index] = {
+                id: id,
+                name: document.getElementById('editContactName').value,
+                phone: document.getElementById('editContactPhone').value,
+                category: document.getElementById('editContactCategory').value
+            };
+            
+            saveContacts();
+            displayContacts(searchBox.value.toLowerCase());
+            closeEditModal();
+        });
+
+        // Edit Contact
+        function editContact(id) {
+            const contact = contacts.find(c => c.id === id);
+            if (contact) {
+                document.getElementById('editContactId').value = contact.id;
+                document.getElementById('editContactName').value = contact.name;
+                document.getElementById('editContactPhone').value = contact.phone;
+                document.getElementById('editContactCategory').value = contact.category;
+                editContactModal.style.display = 'block';
+            }
+        }
+
+        // Delete Contact
+        function deleteContact(id) {
+            if (confirm('آیا از حذف این مخاطب اطمینان دارید؟')) {
+                contacts = contacts.filter(contact => contact.id !== id);
+                saveContacts();
+                displayContacts(searchBox.value.toLowerCase());
+            }
+        }
+
+        // Import Contacts
+        importBtn.addEventListener('click', () => {
+            importFile.click();
+        });
+
+        importFile.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedContacts = JSON.parse(e.target.result);
+                        // اضافه کردن دسته‌بندی "همکاران" به هر مخاطب
+                        const contactsWithCategory = importedContacts.map(contact => ({
+                            ...contact,
+                            category: 'colleagues' // دسته‌بندی پیش‌فرض به "همکاران" تنظیم می‌شود
+                        }));
+                        contacts = contactsWithCategory;
+                        saveContacts();
+                        displayContacts(searchBox.value.toLowerCase());
+                        alert('مخاطبین با موفقیت وارد شدند و در دسته‌بندی همکاران ثبت شدند.');
+                    } catch (error) {
+                        alert('خطا در خواندن فایل');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Export Contacts
+        exportBtn.addEventListener('click', () => {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(contacts));
+            const downloadAnchorNode = document.createElement('a');
+            downloadAnchorNode.setAttribute("href", dataStr);
+            downloadAnchorNode.setAttribute("download", "contacts.json");
+            document.body.appendChild(downloadAnchorNode);
+            downloadAnchorNode.click();
+            downloadAnchorNode.remove();
+        });
+
+        // Full Screen Button
+        fullScreenBtn.addEventListener('click', () => {
+            window.open('popup.html', '_blank', 'width=800,height=600');
+        });
+
+        function saveContacts() {
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+        }
+
+        function displayContacts(searchTerm = '') {
+            if (!searchTerm) {
+                contactList.innerHTML = '';
+                return;
+            }
+
+            const filteredContacts = contacts.filter(contact => 
+                contact.name.toLowerCase().includes(searchTerm) || 
+                contact.phone.includes(searchTerm)
+            );
+
+            contactList.innerHTML = filteredContacts.map(contact => `
+                <div class="glass-card p-4 category-${contact.category} animate-fade">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-bold">${contact.name}</h3>
+                            <p class="text-sm opacity-75">${contact.phone}</p>
+                            <p class="text-sm opacity-75">${getCategoryName(contact.category)}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="btn bg-blue-500 text-white" onclick="editContact(${contact.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn bg-red-500 text-white" onclick="deleteContact(${contact.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryName(category) {
+            const categories = {
+                'family': 'خانواده',
+                'friends': 'دوستان',
+                'colleagues': 'همکاران',
+                'others': 'سایر'
+            };
+            return categories[category] || category;
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target === addContactModal) {
+                closeModal();
+            }
+            if (event.target === editContactModal) {
+                closeEditModal();
+            }
+        }
+
+        // Initial display (empty since no search term)
+        displayContacts();
+    </script>
+</body>
+</html>

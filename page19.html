@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Portfolio Website</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="Theme/css/font-awesome.css">
+  <link rel="stylesheet" href="Theme/css/style.css">
+</head>
+<body>
+
+  <!-- Page Load Start -->
+  <div class="page-loader">
+    <div class="page-loader-inner">
+      <div class="circle"></div>
+      در حال بارگذاری...
+    </div>
+  </div>
+  <!-- Page Load End -->
+
+  <!-- Bg animation Effect start -->
+  <div class="bg-animation-effect">
+  </div>
+  <!-- Bg animation Effect end -->
+
+  <!-- Overlay Effect Start -->
+  <div class="overlay-effect">
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+    <div class="overlay-effect-item"></div>
+  </div>
+  <!-- Overlay Effect End -->
+
+  <!-- Header Start -->
+  <header class="header">
+    <div class="container">
+      <div class="row flex-end">
+        <button type="button" class="nav-toggler">
+          <span></span>
+        </button>
+        <!-- nav -->
+        <nav class="nav">
+          <div class="nav-inner">
+            <ul>
+              <li><a href="#about" class="nav-item link-item">درباره من</a></li>
+              <li><a href="#portfolio" class="nav-item link-item">نمونه کارها</a></li>
+              <li><a href="#contact" class="nav-item link-item">تحصیلات و سوابق کاری</a></li>
+              <li><a href="#contact" class="nav-item link-item">مقاله  های علمی</a></li>
+              <li><a href="#contact" class="nav-item link-item">من در شبکه های اجتماعی</a></li>
+              <li><a href="#contact" class="nav-item link-item">تماس با من</a></li>
+		   </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+  <!-- Header End -->
+
+<!-- About Section Page -->
+  <section class="about-section active" id="about">
+    <div class="container">
+      <div class="row min-vh-100">
+        <div class="about-content">
+          <img src="Theme/img/profile-img.jpg" alt="portofilo-img">
+          <h1>سلام من هادی شوقی نژاد هستم</h1>
+           <p> من <span> توسعه دهنده فرانت </span> هستم , من اپلکیشن های وب را با 
+            <span>html</span>, <span>css</span>, <span>javascript</span> و <span>bootsrtap</span>
+            توسعه میدهم
+            آخرین پروژه های من را در <a href="#portfolio" class="link-item"> صفحه نمونه کار ها </a>مشاهده کنید
+              می خواهید در مورد یک پروژه صحبت کنید؟ شما می توانید با من در تماس باشید از <a href="#contact" class="link-item">اینجا</a>
+          </p>
+          <h2>مهارت ها</h2>
+          <div class="skills">
+            <div class="skill-item">html</div>
+            <div class="skill-item">css</div>
+            <div class="skill-item">javascript</div>
+            <div class="skill-item">bootstrap</div>
+            <div class="skill-item">jquery</div>
+            <div class="skill-item">php</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- About Section End -->
+
+<!-- Portfolio Section Start -->
+<section class="portfolio-section sec-padding" id="portfolio">
+  <div class="container">
+    <div class="row">
+      <div class="section-title">
+        <h2>کارهای اخیر</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="portfolio-filter">
+        <button type="button" title="مشاهده همه کار ها" class="portfolio-filter-btn active" data-filter="all">همه</button>
+        <button type="button" title="پروژه های فرانت اند" class="portfolio-filter-btn" data-filter="front-end">فرانت اند</button>
+        <button type="button" title="پروژه های بک اند" class="portfolio-filter-btn" data-filter="back-end">بک اند</button>
+        <button type="button" title="پروژه های بوت استرپ" class="portfolio-filter-btn" data-filter="bootstrap">بوت استرپ</button>
+      </div>
+      <div class="filter-status">
+        <p></p>
+      </div>
+    </div>
+    <div class="row portfolio-items">
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="front-end">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/1.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">طراحی وب سایت آموزشی</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Html , Css</span></p>
+            <p>نقش - <span>فرانت اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="front-end,bootstrap">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/2.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">طراحی وب سایت شخصی</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Bootstrap 5</span></p>
+            <p>نقش - <span>فرانت اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="back-end">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/3.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">پروژه بک اند</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Html , Php</span></p>
+            <p>نقش - <span>بک اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="front-end,bootsrap">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/4.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">طراحی لندینگ پیج</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Html , Css , Bootstrap 4</span></p>
+            <p>نقش - <span>فرانت اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="front-end">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/5.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">طراحی وب سایت رستوران</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Html , Css , Javascript</span></p>
+            <p>نقش - <span>فرانت اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="front-end,bootsrap">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/6.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">طراحی وب سایت شخصی</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Html , Css, Javascript</span></p>
+            <p>نقش - <span>فرانت اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+
+      <!-- portfolio item start-->
+      <div class="portfolio-item" data-category="front-end,bootsrap">
+        <div class="portfolio-item-thumbnail">
+          <img src="Theme/img/portfolio/7.jpg" alt="thumbnail">
+          <button type="button" class="btn more-info-btn">توضیحات بیشتر</button>
+        </div>
+        <h3 class="portfolio-item-title">طراحی لندینگ پیج محصولات</h3>
+        <div class="portfolio-item-details">
+          <div class="description">
+            <p>
+              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+            </p>
+          </div>
+          <div class="general-info">
+            <p>ایجاد شده - <span>۲۵ آبان ۱۴۰۳</span></p>
+            <p>تکنولژی استفاده شده - <span>Html , Css</span></p>
+            <p>نقش - <span>فرانت اند</span></p>
+            <p>مشاهده آنلاین - <span><a href="#">www.com</a></span></p>
+          </div>
+        </div>
+      </div>
+      <!-- portfolio item end-->
+    </div>
+  </div>
+</section>
+<!-- Portfolio Section end -->
+
+<!-- Contact Section Start-->
+<section class="contact-section sec-padding min-vh-100" id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="section-title">
+        <h2>ارتباط با من</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="contact-content">
+        <div class="contact-text">
+          <p>
+            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد 
+          </p>
+        </div>
+        <div class="contact-info-item">
+          <p>ایمیل من <span>example@gmail.com</span></p>
+        </div>
+        <div class="contact-info-item">
+          <p class="social-links">
+            <span>من در شبکه های اجتماعی</span>
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </p>
+        </div>
+        <button type="button" class="btn toggle-contact-form-btn">ارسال پیام</button>
+      </div>
+      <!-- Contact Form Start -->
+      <div class="contact-form">
+        <div class="contact-form-inner">
+          <div class="contact-form-container">
+            <button type="button" class="close-btn toggle-contact-form-btn"></button>
+            <form>
+              <div class="row">
+                <div class="input-group">
+                  <input type="text" placeholder="نام خود را وارد کنید" class="input-control">
+                </div>
+                <div class="input-group">
+                  <input type="email" placeholder="ایمیل خود را وارد کنید" class="input-control">
+                </div>
+                <div class="input-group">
+                  <input type="text" placeholder="عنوان پیام" class="input-control">
+                </div>
+                <div class="input-group">
+                  <textarea placeholder="پیام خود را وارد کنید" class="input-control"></textarea>
+                </div>
+                <div class="input-group">
+                  <button type="submit" class="btn btn-submit">ارسال</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Contact Form End -->
+    </div>
+  </div>
+</section>
+<!-- Contact Section End-->
+
+<!-- Porrfolio Item Details Popup Start -->
+<div class="portfolio-popup">
+  <div class="pp-overlay"></div>
+  <div class="pp-inner">
+    <div class="pp-content">
+      <div class="pp-header">
+        <h2 class="pp-counter">
+        </h2>
+        <button type="button" title="close" class="close-btn pp-close-btn"></button>
+        <div class="pp-thumbnail">
+          <img src="Theme/img/portfolio/7.jpg" alt="pp-thumbnail">
+        </div>
+        <h3></h3>
+      </div>
+      <div class="pp-body">
+      </div>
+      <div class="pp-footer">
+        <div class="pp-footer-right hidden">
+          <button type="button" title="Next Work" class="btn pp-next-btn">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <h3></h3>
+          <img src="Theme/img/portfolio/2.jpg" alt="next work thumbnail">
+        </div>
+        <div class="pp-footer-left hidden">
+          <button type="button" title="Prev Work" class="btn pp-prev-btn">
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <h3></h3>
+          <img src="Theme/img/portfolio/1.jpg" alt="prev work thumbnail">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Porrfolio Item Details Popup end -->
+  
+
+<script src="Theme/js/script.js"></script>
+</body>
+</html>

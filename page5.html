@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبدیل تاریخ میلادی به شمسی</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.min.js"></script>
+</head>
+<body>
+    <div id="logo">
+        <img src="logo.png" alt="لوگو" style="max-width: 100%; height: auto;">
+    </div>
+    <h2>تبدیل تاریخ میلادی به شمسی</h2>
+    <label for="gregorianDate">تاریخ میلادی (YYYYMMDD):</label>
+    <input type="text" id="gregorianDate" placeholder="مثال: 20250114">
+    <br><br>
+    <label for="daysToAdd">تعداد روزی که می‌خواهید اضافه کنید:</label>
+    <input type="number" id="daysToAdd" value="0">
+    <br><br>
+    <button onclick="convertDate()">تبدیل تاریخ</button>
+    <br><br>
+    <h3>تاریخ شمسی:</h3>
+    <p id="shamsiDate"></p>
+
+    <script>
+        function convertDate() {
+            const gregorianDate = document.getElementById('gregorianDate').value;
+            const daysToAdd = parseInt(document.getElementById('daysToAdd').value) || 0;
+
+            if (!/^\d{8}$/.test(gregorianDate)) {
+                alert('لطفاً تاریخ را به صورت YYYYMMDD وارد کنید.');
+                return;
+            }
+
+            const year = parseInt(gregorianDate.slice(0, 4));
+            const month = parseInt(gregorianDate.slice(4, 6)) - 1;
+            const day = parseInt(gregorianDate.slice(6, 8));
+
+            const initialDate = new Date(year, month, day);
+            const newDate = new Date(initialDate.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+
+            const shamsi = window.jalaali.toJalaali(newDate.getFullYear(), newDate.getMonth() + 1, newDate.getDate());
+            const shamsiDate = `${shamsi.jy}/${shamsi.jm}/${shamsi.jd}`;
+
+            document.getElementById('shamsiDate').textContent = shamsiDate;
+        }
+    </script>
+</body>
+</html>

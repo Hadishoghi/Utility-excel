@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تبدیل محدوده به تصویر</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* استایل راست‌به‌چپ برای جدول */
+        table {
+            direction: rtl;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        td, th {
+            border: 1px solid black;
+            padding: 5px;
+            text-align: center;
+        }
+        #searchBox {
+            margin-top: 20px;
+            padding: 5px;
+            width: 300px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>تبدیل محدوده اکسل به تصویر</h1>
+    <input type="file" id="excelFile" accept=".xlsx, .xls" />
+    <br><br>
+    <label for="columnRange">محدوده ستون‌ها (مثال: A-D): </label>
+    <input type="text" id="columnRange" placeholder="A-D">
+    <br><br>
+    <button onclick="loadContent()">نمایش محتوا</button>
+
+    <div id="controls" style="display: none; margin-top: 20px;">
+        <input type="text" id="searchBox" placeholder="جستجو در محتوا..." oninput="searchTable()" />
+        <button onclick="printAllSheets()">پرینت همه شیت‌ها</button>
+        <button onclick="downloadAllSheets()">دانلود همه شیت‌ها</button>
+    </div>
+
+    <div id="tableContainer" style="margin-top: 20px;"></div>
+
+    <script>
+        let currentTables = [];
+
+        function loadContent() {
+            const fileInput = document.getElementById('excelFile');
+            const columnRange = document.getElementById('columnRange').value.toUpperCase();
+
+            if (!fileInput.files.length) {
+                alert('لطفاً یک فایل اکسل انتخاب کنید.');
+                return;
+            }
+
+            if (!columnRange || !columnRange.includes('-')) {
+                alert('لطفاً محدوده ستون‌ها را به درستی وارد کنید (مثال: A-D).');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+
+                const [startCol, endCol] = columnRange.split('-');
+                const startColIndex = XLSX.utils.decode_col(startCol);
+                const endColIndex = XLSX.utils.decode_col(endCol);
+
+                const tableContainer = document.getElementById('tableContainer');
+                tableContainer.innerHTML = ''; // پاک کردن محتوای قبلی
+                currentTables = []; // پاک کردن جداول قبلی
+
+                workbook.SheetNames.forEach(sheetName => {
+                    const worksheet = workbook.Sheets[sheetName];
+                    const json = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: '' }); // نمایش سلول‌های خالی
+
+                    const filteredData = json.map(row => row.slice(startColIndex, endColIndex + 1));
+
+                    // ایجاد جدول HTML
+                    const table = document.createElement('table');
+                    table.setAttribute('dir', 'rtl'); // راست‌به‌چپ کردن جدول
+
+                    filteredData.forEach((row, rowIndex) => {
+                        const tr = document.createElement('tr');
+                        let lastNonEmptyCell = null;
+
+                        row.forEach((cell, cellIndex) => {
+                            const td = document.createElement('td');
+                            td.textContent = cell === null || cell === undefined ? '' : cell; // نمایش سلول‌های خالی
+                            tr.appendChild(td);
+
+                            if (cell !== '' && cell !== null && cell !== undefined) {
+                                lastNonEmptyCell = td; // آخرین سلول غیر خالی
+                            }
+                        });
+
+                        // ادغام سلول‌های خالی با آخرین سلول غیر خالی
+                        if (lastNonEmptyCell) {
+                            let emptyCells = Array.from(tr.children).filter(td => td.textContent === '');
+                            emptyCells.forEach(td => {
+                                lastNonEmptyCell.colSpan = (lastNonEmptyCell.colSpan || 1) + 1;
+                                td.remove();
+                            });
+                        }
+
+                        table.appendChild(tr);
+                    });
+
+                    tableContainer.appendChild(table);
+                    currentTables.push({ name: sheetName, table }); // ذخیره جدول برای استفاده بعدی
+                });
+
+                // نمایش کنترل‌ها
+                document.getElementById('controls').style.display = 'block';
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function searchTable() {
+            const searchText = document.getElementById('searchBox').value.toLowerCase();
+            currentTables.forEach(({ table }) => {
+                const rows = table.getElementsByTagName('tr');
+                for (let i = 1; i < rows.length; i++) { // شروع از ردیف ۱ برای نادیده گرفتن هدر
+                    const cells = rows[i].getElementsByTagName('td');
+                    let found = false;
+                    for (let j = 0; j < cells.length; j++) {
+                        const cellText = cells[j].textContent.toLowerCase();
+                        if (cellText.includes(searchText)) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    rows[i].style.display = found ? '' : 'none'; // نمایش یا مخفی کردن ردیف
+                }
+            });
+        }
+
+        function printAllSheets() {
+            if (currentTables.length === 0) {
+                alert('هیچ جدولی برای پرینت وجود ندارد.');
+                return;
+            }
+
+            const pdf = new jspdf.jsPDF();
+            currentTables.forEach(({ name, table }, index) => {
+                if (index > 0) {
+                    pdf.addPage(); // اضافه کردن صفحه جدید برای هر شیت
+                }
+                pdf.text(name, 10, 10); // اضافه کردن نام شیت به عنوان عنوان
+                pdf.autoTable({
+                    html: table,
+                    startY: 20,
+                });
+            });
+
+            pdf.save('all_sheets.pdf');
+        }
+
+        function downloadAllSheets() {
+            if (currentTables.length === 0) {
+                alert('هیچ جدولی برای دانلود وجود ندارد.');
+                return;
+            }
+
+            currentTables.forEach(({ name, table }) => {
+                html2canvas(table).then(canvas => {
+                    const image = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = image;
+                    link.download = `${name}.png`;
+                    link.click();
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta charset="UTF-8">
+    <title>ابزارهای کاربردی آذین خودرو</title>
+    
+    <!-- اضافه کردن فایل font-awesome.css -->
+    <link rel="stylesheet" href="font-awesome.css">
+    
+    <!-- اضافه کردن فایل style.css -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        body {
+            font-family: "Tahoma", sans-serif;
+            background: #000000 url("data:image/gif;base64,R0lGODlhBAAEAKECAAAAAP/78//78yH5BAEKAAIALAAAAAAEAAQAAAIFhB6nhlUAOw==") repeat;
+            margin: 0;
+            padding: 20px;
+            color: #ffffff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.95);
+            border: 5px ridge #333333;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.4);
+        }
+        .header {
+            background: linear-gradient(45deg, #333333, #000000);
+            padding: 20px;
+            color: white;
+            text-align: center;
+            border: 3px outset #333333;
+            margin-bottom: 20px;
+        }
+        .accordion {
+            margin: 20px 0;
+        }
+        .accordion-item {
+            margin-bottom: 5px;
+        }
+        .accordion-header {
+            background: #555555;
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 3px outset #444444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .accordion-header:hover {
+            background: #444444;
+        }
+        .accordion-content {
+            background: #333333;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 3px solid #555555;
+            border-right: 3px solid #555555;
+            border-bottom: 3px solid #555555;
+        }
+        .accordion-content.active {
+            max-height: 500px;
+            padding: 15px;
+        }
+        .tool-link {
+            display: block;
+            padding: 10px;
+            color: #cccccc;
+            text-decoration: none;
+            border-bottom: 1px dashed #666666;
+            transition: 0.3s;
+        }
+        .tool-link:hover {
+            background: #666666;
+            color: white;
+            padding-right: 20px;
+        }
+        @keyframes glow {
+            0% { text-shadow: 2px 2px #000000; }
+            50% { text-shadow: 2px 2px #555555; }
+            100% { text-shadow: 2px 2px #000000; }
+        }
+        h1 {
+            animation: glow 2s infinite;
+            text-shadow: 2px 2px #000000;
+        }
+        .arrow {
+            transition: transform 0.3s;
+        }
+        .active .arrow {
+            transform: rotate(180deg);
+        }
+        marquee {
+            background: #333333;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #333333;
+            color: white;
+        }
+        .date-time {
+            text-align: center;
+            background: #333333;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .fade-button {
+            transition: opacity 0.3s;
+        }
+        .fade-button:hover {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="date-time" id="date-time"></div>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 ابزارهای کاربردی واحد لجستیک آذین خودرو 🔧</h1>
+        </div>
+        <marquee scrollamount="5" direction="right">
+            ⚡️ طراحی و کدنویسی شده توسط واحد لجستیک آذین خودرو - هادی شوقی ⚡️
+        </marquee>
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header fade-button">
+                    <span>🔍 همه ابزارها</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="page1.html" class="tool-link">سیستم چک اسناد</a>
+                    <a href="page2.html" class="tool-link">ابزار ویلوکاپ</a>
+                    <a href="page3.html" class="tool-link">تجمیع همه شیتها در یک فایل</a>
+                    <a href="page4.html" class="tool-link">یکسان سازی شیت جهت پرینت</a>
+                    <a href="page5.html" class="tool-link">تبدیل تاریخ میلادی</a>
+                     <a href="page6.html" class="tool-link">ابزار جستجو در فایل اکسل</a>
+                    <a href="page7.html" class="tool-link">ویلوکاپ و تشخیص فایفو</a>
+                    <a href="page8.html" class="tool-link">کنترل و گزارش تاریخ انقضا</a>
+                     <a href="page9.html" class="tool-link">تبدیل شیت اکسل به تصویر</a>
+                     <a href="page10.html" class="tool-link">دفترچه تلفن داخلی کارخانه</a>
+                    <a href="page11.html" class="tool-link">طرح های بسته بندی</a>
+                    <a href="page12.html" class="tool-link">محاسبه مقدار شاخه لوله وارده</a>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header fade-button">
+                    <span>📦 مدیریت انبار و لجستیک</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="page3.html" class="tool-link">تجمیع همه شیتها در یک فایل</a>
+                    <a href="page4.html" class="tool-link">یکسان سازی شیت جهت پرینت</a>
+                    <a href="page5.html" class="tool-link">تبدیل تاریخ میلادی</a>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header fade-button">
+                    <span>📊 گزارش‌گیری برای مدیریت</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="page6.html" class="tool-link">ابزار جستجو در فایل اکسل</a>
+                    <a href="page7.html" class="tool-link">ویلوکاپ و تشخیص فایفو</a>
+                    <a href="page8.html" class="tool-link">کنترل و گزارش تاریخ انقضا</a>
+                     <a href="page9.html" class="tool-link">تبدیل شیت اکسل به تصویر</a>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header fade-button">
+                    <span>🔧 ابزارها</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="page10.html" class="tool-link">دفترچه تلفن داخلی کارخانه</a>
+                    <a href="page11.html" class="tool-link">طرح های بسته بندی</a>
+                    <a href="page12.html" class="tool-link">محاسبه مقدار شاخه لوله وارده</a>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header fade-button">
+                    <span>👥 مدیریت منابع</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="page13.html" class="tool-link">مدیریت تامین‌کنندگان</a>
+                    <a href="page14.html" class="tool-link">مدیریت پرسنل</a>
+                    <a href="page15.html" class="tool-link">مدیریت انرژی</a>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <div class="accordion-header fade-button">
+                    <span>📱 ابزارهای موبایل</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <a href="page16.html" class="tool-link">اپلیکیشن موبایل</a>
+                    <a href="page17.html" class="tool-link">پنل موبایل مدیریت</a>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <marquee scrollamount="3">
+                💡 برای دسترسی به هر بخش روی عنوان آن کلیک کنید | جهت راهنمایی بیشتر با پشتیبانی با شماره داخلی 250 یا تلفن همراه 09037192379 تماس بگیرید
+            </marquee>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-jalaali/0.9.2/jalaali.min.js"></script>
+    <script>
+        document.querySelectorAll('.accordion-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const content = header.nextElementSibling;
+                const arrow = header.querySelector('.arrow');
+                document.querySelectorAll('.accordion-content').forEach(item => {
+                    if(item !== content) {
+                        item.classList.remove('active');
+                        item.previousElementSibling.querySelector('.arrow').classList.remove('active');
+                    }
+                });
+                content.classList.toggle('active');
+                arrow.classList.toggle('active');
+            });
+        });
+        document.querySelectorAll('.tool-link').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                link.style.transform = 'translateX(-10px)';
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'translateX(0)';
+            });
+        });
+      function updateDateTime() {
+            var now = new Date();
+            var jalaaliDate = jalaali.toJalaali(now);
+            var time = now.toLocaleTimeString('fa-IR');
+            document.getElementById('dateTime').innerText = 
+                'تاریخ: ' + jalaaliDate.jy + '/' + jalaaliDate.jm + '/' + jalaaliDate.jd + ' - ساعت: ' + time;
+        }
+
+        // به‌روزرسانی تاریخ و ساعت هر ثانیه
+        setInterval(updateDateTime, 1000);
+        window.onload = updateDateTime; // نمایش تاریخ و ساعت هنگام بارگذاری صفحه
+    </script>
+</head>
+<body>
+    <div id="dateTime"></div>
+
+      
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+    </script>
+</body>
+</html>

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه 1 - واحد لجستیک آذین خودرو</title>
+    <style>
+        /* سبک دکمه راهنما */
+        .help-button {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* سبک پنجره راهنما */
+        .help-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            width: 80%;
+            max-width: 600px;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* دکمه بستن */
+        .close-button {
+            float: right;
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+            cursor: pointer;
+        }
+
+        /* سبک عنوان */
+        .help-modal h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* سبک لیست */
+        .help-modal ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- عنوان صفحه -->
+    <h1>صفحه 1 - واحد لجستیک آذین خودرو</h1>
+    <p>به صفحه مدیریت واحد لجستیک آذین خودرو خوش آمدید.</p>
+
+    <!-- دکمه راهنما -->
+    <button class="help-button" onclick="openHelp()">راهنما</button>
+
+    <!-- پنجره راهنما -->
+    <div id="helpModal" class="help-modal">
+        <span class="close-button" onclick="closeHelp()">&times;</span>
+        <h2>📚 راهنمای صفحه 1</h2>
+        <ul>
+            <li><strong>انتخاب ستون برای فیلتر:</strong> از لیست "ستون را برای فیلتر انتخاب کنید" ستون مورد نظر خود را انتخاب کنید.</li>
+            <li><strong>فیلتر تاریخ:</strong> برای فیلتر کردن بر اساس تاریخ، از گزینه "ستون تاریخ را انتخاب کنید" استفاده کنید و بازه تاریخ را وارد کنید.</li>
+            <li><strong>اعمال فیلترها:</strong> بعد از تنظیم فیلترها، روی دکمه "اعمال فیلترها" کلیک کنید تا تغییرات اعمال شوند.</li>
+            <li><strong>بازنشانی فیلترها:</strong> برای حذف تمام فیلترها و بازگشت به وضعیت اولیه، از دکمه "بازنشانی فیلترها" استفاده کنید.</li>
+            <li><strong>خروجی اکسل:</strong> برای دانلود فایل اکسل از داده‌های نمایش داده شده، روی دکمه "خروجی اکسل" کلیک کنید.</li>
+            <li><strong>پرینت:</strong>
+                <ul>
+                    <li>برای پرینت موارد صحیح، از دکمه "پرینت موارد صحیح" استفاده کنید.</li>
+                    <li>برای پرینت موارد غلط، از دکمه "پرینت موارد غلط" استفاده کنید.</li>
+                    <li>برای پرینت موارد چک نشده، از دکمه "پرینت موارد چک نشده" استفاده کنید.</li>
+                    <li>برای پرینت تمام موارد قابل مشاهده، از دکمه "پرینت موارد قابل مشاهده" استفاده کنید.</li>
+                </ul>
+            </li>
+            <li><strong>انتخاب همه:</strong> برای انتخاب همه موارد در یک ستون خاص، ابتدا ستون مورد نظر را از لیست "ستون را انتخاب کنید" انتخاب کرده و سپس روی دکمه "انتخاب همه" کلیک کنید.</li>
+            <li><strong>چک کردن موارد:</strong>
+                <ul>
+                    <li>برای علامت‌گذاری موارد به عنوان صحیح، تیک مربوط به ستون "صحیح (سبز)" را بزنید.</li>
+                    <li>برای علامت‌گذاری موارد به عنوان غلط، تیک مربوط به ستون "غلط (قرمز)" را بزنید.</li>
+                </ul>
+            </li>
+        </ul>
+        <p>🥰🥰 تقدیم به همکاران محترم جهت سهولت در چک نمودن اسناد 😋🤩</p>
+    </div>
+
+    <script>
+        // تابع برای باز کردن پنجره راهنما
+        function openHelp() {
+            document.getElementById("helpModal").style.display = "block";
+        }
+
+        // تابع برای بستن پنجره راهنما
+        function closeHelp() {
+            document.getElementById("helpModal").style.display = "none";
+        }
+    </script>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZIN KHODROO . SHOGHI</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jalaali-js/dist/jalaali.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        input[type="file"], input[type="text"], input[type="number"], input[type="date"], select {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .filters {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .filters div {
+            flex: 1 1 calc(50% - 10px);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .green-row {
+            background-color: #28a745 !important;
+            color: white;
+        }
+        .red-row {
+            background-color: #dc3545 !important;
+            color: white;
+        }
+        .checked-section {
+            margin-top: 20px;
+        }
+        .checked-section h2 {
+            color: green;
+        }
+        .reset-button, .export-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .export-button {
+            background-color: #4CAF50;
+            margin-left: 10px;
+        }
+        .reset-button:hover {
+            background-color: #d32f2f;
+        }
+        .export-button:hover {
+            background-color: #45a049;
+        }
+        .print-button {
+            direction: rtl;
+            text-align: right;
+        }
+        .print-buttons {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            animation: shake 0.5s;
+        }
+        .print-buttons.show {
+            display: flex;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            #table-container {
+                display: none;
+            }
+            .checked-section {
+                display: block !important;
+            }
+            .checked-section h2 {
+                display: none;
+            }
+            .green-row {
+                background-color: #28a745 !important;
+                color: white;
+            }
+            .red-row {
+                background-color: #dc3545 !important;
+                color: white;
+            }
+            #checked-items-container table {
+                width: 100%;
+                border-collapse: collapse;
+                direction: rtl;
+            }
+            #checked-items-container th, #checked-items-container td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: center;
+            }
+        }
+
+        #welcome-message {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+            color: green;
+            padding: 10px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="welcome-message">
+            🥰🥰تقدیم به همکاران محترم جهت سهولت در چک نمودن اسناد🤩🤩
+        </div>
+
+        <h1 class="no-print">طراحی اختصاصی واحد لجستیک آذین خودرو</h1>
+        <input type="file" id="upload" accept=".xlsx, .xls" class="no-print">
+        <input type="text" id="search" class="no-print">
+
+        <div class="filters no-print">
+            <div>
+                <select id="filter-column">
+                    <option value="">ستون را برای فیلتر انتخاب کنید</option>
+                </select>
+            </div>
+            <div>
+                <input type="text" id="filter-value">
+            </div>
+            <div>
+                <input type="text" id="start-date">
+            </div>
+            <div>
+                <input type="text" id="end-date">
+            </div>
+            <div>
+                <select id="date-column">
+                    <option value="">ستون تاریخ را انتخاب کنید</option>
+                </select>
+            </div>
+        </div>
+        <button id="apply-filters" class="no-print">اعمال فیلترها</button>
+        <button id="reset-filters" class="reset-button no-print">بازنشانی فیلترها</button>
+        <button id="export-excel" class="export-button no-print">خروجی اکسل</button>
+        <button id="print-button" class="export-button no-print print-button">پرینت</button>
+        <button id="select-all-button" class="export-button no-print print-button">انتخاب همه</button>
+        <select id="select-all-column" class="no-print">
+            <option value="">ستون را انتخاب کنید</option>
+            <option value="green">صحیح (سبز)</option>
+            <option value="red">غلط (قرمز)</option>
+        </select>
+
+        <div class="print-buttons no-print">
+            <button id="print-checked-green" class="export-button print-button">پرینت موارد صحیح</button>
+            <button id="print-checked-red" class="export-button print-button">پرینت موارد غلط</button>
+            <button id="print-unchecked" class="export-button print-button">پرینت موارد چک نشده</button>
+            <button id="print-visible" class="export-button print-button">پرینت موارد قابل مشاهده</button>
+        </div>
+
+        <div id="table-container"></div>
+        <div class="checked-section">
+            <h2 class="no-print">چک شده‌ها</h2>
+            <div id="checked-items-container"></div>
+        </div>
+    </div>
+
+    <script>
+
+        const uploadInput = document.getElementById('upload');
+        const searchInput = document.getElementById('search');
+        const filterColumnSelect = document.getElementById('filter-column');
+        const filterValueInput = document.getElementById('filter-value');
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        const dateColumnSelect = document.getElementById('date-column');
+        const applyFiltersButton = document.getElementById('apply-filters');
+        const resetFiltersButton = document.getElementById('reset-filters');
+        const exportExcelButton = document.getElementById('export-excel');
+        const printButton = document.getElementById('print-button');
+        const selectAllButton = document.getElementById('select-all-button');
+        const selectAllColumnSelect = document.getElementById('select-all-column');
+        const printCheckedGreenButton = document.getElementById('print-checked-green');
+        const printCheckedRedButton = document.getElementById('print-checked-red');
+        const printUncheckedButton = document.getElementById('print-unchecked');
+        const printVisibleButton = document.getElementById('print-visible');
+        const tableContainer = document.getElementById('table-container');
+        const checkedItemsContainer = document.getElementById('checked-items-container');
+        const printButtonsContainer = document.querySelector('.print-buttons');
+
+        let tableData = [];
+        let headers = [];
+        let greenCheckedItems = new Set();
+        let redCheckedItems = new Set();
+
+        function renderTable(data) {
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            const headerRow = document.createElement('tr');
+            const idHeader = document.createElement('th');
+            idHeader.textContent = "ID";
+            headerRow.appendChild(idHeader);
+
+            const checkboxHeaderGreen = document.createElement('th');
+            checkboxHeaderGreen.textContent = "صحیح (سبز)";
+            headerRow.appendChild(checkboxHeaderGreen);
+
+            const checkboxHeaderRed = document.createElement('th');
+            checkboxHeaderRed.textContent = "غلط (قرمز)";
+            headerRow.appendChild(checkboxHeaderRed);
+
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+
+            data.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                tr.dataset.id = row.id; // Add unique identifier
+
+                const idCell = document.createElement('td');
+                idCell.textContent = row.id;
+                tr.appendChild(idCell);
+
+                const checkboxCellGreen = document.createElement('td');
+                const checkboxGreen = document.createElement('input');
+                checkboxGreen.type = 'checkbox';
+                checkboxGreen.checked = greenCheckedItems.has(row.id);
+                checkboxGreen.classList.add('rowCheckboxGreen');
+                checkboxGreen.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        greenCheckedItems.add(row.id);
+                        redCheckedItems.delete(row.id);
+                        tr.classList.add('green-row');
+                        tr.classList.remove('red-row');
+                    } else {
+                        greenCheckedItems.delete(row.id);
+                        tr.classList.remove('green-row');
+                    }
+                    updateCheckedItems();
+                });
+                checkboxCellGreen.appendChild(checkboxGreen);
+                tr.appendChild(checkboxCellGreen);
+
+                const checkboxCellRed = document.createElement('td');
+                const checkboxRed = document.createElement('input');
+                checkboxRed.type = 'checkbox';
+                checkboxRed.checked = redCheckedItems.has(row.id);
+                checkboxRed.classList.add('rowCheckboxRed');
+                checkboxRed.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        redCheckedItems.add(row.id);
+                        greenCheckedItems.delete(row.id);
+                        tr.classList.add('red-row');
+                        tr.classList.remove('green-row');
+                    } else {
+                        redCheckedItems.delete(row.id);
+                        tr.classList.remove('red-row');
+                    }
+                    updateCheckedItems();
+                });
+                checkboxCellRed.appendChild(checkboxRed);
+                tr.appendChild(checkboxCellRed);
+
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = row[header];
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            tableContainer.innerHTML = '';
+            tableContainer.appendChild(table);
+
+            updateCheckedItems();
+        }
+
+        function updateCheckedItems() {
+            const checkedData = Array.from(greenCheckedItems).map(id => ({ ...tableData.find(row => row.id === id), id: "TRUE" }));
+            const redCheckedData = Array.from(redCheckedItems).map(id => ({ ...tableData.find(row => row.id === id), id: "FALSE" }));
+            const checkedTable = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+
+            const headerRow = document.createElement('tr');
+            const idHeader = document.createElement('th');
+            idHeader.textContent = "ID";
+            headerRow.appendChild(idHeader);
+
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            checkedData.forEach(row => {
+                const tr = document.createElement('tr');
+                const idCell = document.createElement('td');
+                idCell.textContent = row.id;
+                tr.appendChild(idCell);
+
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = row[header];
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            redCheckedData.forEach(row => {
+                const tr = document.createElement('tr');
+                const idCell = document.createElement('td');
+                idCell.textContent = row.id;
+                tr.appendChild(idCell);
+
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.textContent = row[header];
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            checkedTable.appendChild(thead);
+            checkedTable.appendChild(tbody);
+
+            checkedItemsContainer.innerHTML = '';
+            checkedItemsContainer.appendChild(checkedTable);
+        }
+
+        uploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const data = new Uint8Array(event.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+
+                    const sheetName = workbook.SheetNames[0];
+                    const sheet = workbook.Sheets[sheetName];
+                    tableData = XLSX.utils.sheet_to_json(sheet);
+
+                    // Add unique identifier to each row
+                    tableData.forEach((row, index) => {
+                        row.id = index;
+                    });
+
+                    headers = Object.keys(tableData[0]).filter(header => header !== 'id');
+
+                    filterColumnSelect.innerHTML = '<option value="">ستون را برای فیلتر انتخاب کنید</option>';
+                    headers.forEach(header => {
+                        const option = document.createElement('option');
+                        option.value = header;
+                        option.textContent = header;
+                        filterColumnSelect.appendChild(option);
+                    });
+
+                    dateColumnSelect.innerHTML = '<option value="">ستون تاریخ را انتخاب کنید</option>';
+                    headers.forEach(header => {
+                        const option = document.createElement('option');
+                        option.value = header;
+                        option.textContent = header;
+                        dateColumnSelect.appendChild(option);
+                    });
+
+                    renderTable(tableData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        function jalaliToGregorian(jalaliDate) {
+            const [year, month, day] = jalaliDate.split('/').map(Number);
+            const gregorianDate = jalaali.toGregorian(year, month, day);
+            return new Date(gregorianDate.gy, gregorianDate.gm - 1, gregorianDate.gd);
+        }
+
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase();
+            const filterColumn = filterColumnSelect.value;
+            const filterValue = filterValueInput.value.toLowerCase();
+            const startDate = startDateInput.value;
+            const endDate = endDateInput.value;
+            const dateColumn = dateColumnSelect.value;
+
+            const filteredData = tableData.filter((row, rowIndex) => {
+                const matchesSearch = Object.values(row).some(value =>
+                    value.toString().toLowerCase().includes(query)
+                );
+
+                let matchesColumnFilter = true;
+                if (filterColumn && filterValue) {
+                    const columnValue = row[filterColumn];
+                    if (columnValue) {
+                        matchesColumnFilter = columnValue.toString().toLowerCase().includes(filterValue);
+                    } else {
+                        matchesColumnFilter = false;
+                    }
+                }
+
+                let matchesDate = true;
+                if (dateColumn && row[dateColumn]) {
+                    const rowDate = row[dateColumn];
+                    if (typeof rowDate === 'string' && rowDate.match(/^\d{4}\/\d{2}\/\d{2}$/)) {
+                        const rowDateObj = jalaliToGregorian(rowDate);
+                        const startDateObj = startDate ? jalaliToGregorian(startDate) : null;
+                        const endDateObj = endDate ? jalaliToGregorian(endDate) : null;
+
+                        if (startDateObj && rowDateObj < startDateObj) matchesDate = false;
+                        if (endDateObj && rowDateObj > endDateObj) matchesDate = false;
+                    }
+                }
+
+                return matchesSearch && matchesColumnFilter && matchesDate;
+            });
+
+            renderTable(filteredData);
+        }
+
+        function resetFilters() {
+            searchInput.value = '';
+            filterColumnSelect.value = '';
+            filterValueInput.value = '';
+            startDateInput.value = '';
+            endDateInput.value = '';
+            dateColumnSelect.value = '';
+            renderTable(tableData);
+        }
+
+        function exportToExcel() {
+            const greenCheckedData = Array.from(greenCheckedItems).map(id => ({ ...tableData.find(row => row.id === id), id: "TRUE" }));
+            const redCheckedData = Array.from(redCheckedItems).map(id => ({ ...tableData.find(row => row.id === id), id: "FALSE" }));
+            const uncheckedData = tableData.filter(row => !greenCheckedItems.has(row.id) && !redCheckedItems.has(row.id)).map(row => ({ ...row, id: "" }));
+
+            const wb = XLSX.utils.book_new();
+
+            if (greenCheckedData.length > 0) {
+                const wsGreen = XLSX.utils.json_to_sheet(greenCheckedData);
+                XLSX.utils.book_append_sheet(wb, wsGreen, "صحیح (سبز)");
+            }
+
+            if (redCheckedData.length > 0) {
+                const wsRed = XLSX.utils.json_to_sheet(redCheckedData);
+                XLSX.utils.book_append_sheet(wb, wsRed, "غلط (قرمز)");
+            }
+
+            if (uncheckedData.length > 0) {
+                const wsUnchecked = XLSX.utils.json_to_sheet(uncheckedData);
+                XLSX.utils.book_append_sheet(wb, wsUnchecked, "چک نشده");
+            }
+
+            XLSX.writeFile(wb, 'checked-items-export.xlsx');
+        }
+
+        function printCheckedItems(data, title) {
+            if (data.length === 0) {
+                alert("هیچ موردی تیک نخورده است!");
+                return;
+            }
+
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write('<html><head><title>' + title + '</title></head><body>');
+            printWindow.document.write('<h1>' + title + '</h1>');
+            printWindow.document.write('<table border="1"><tr>');
+            headers.forEach(header => {
+                printWindow.document.write(`<th>${header}</th>`);
+            });
+            printWindow.document.write('</tr>');
+            data.forEach(row => {
+                printWindow.document.write('<tr>');
+                headers.forEach(header => {
+                    printWindow.document.write(`<td>${row[header]}</td>`);
+                });
+                printWindow.document.write('</tr>');
+            });
+            printWindow.document.write('</table></body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function printUncheckedItems() {
+            const uncheckedData = tableData.filter(row => !greenCheckedItems.has(row.id) && !redCheckedItems.has(row.id));
+            printCheckedItems(uncheckedData, "موارد چک نشده");
+        }
+
+        function printVisibleItems() {
+            const visibleData = tableData.filter(row => {
+                const rowElement = document.querySelector(`tr[data-id="${row.id}"]`);
+                return rowElement && rowElement.offsetParent !== null;
+            });
+            printCheckedItems(visibleData, "موارد قابل مشاهده");
+        }
+
+        function togglePrintButtons() {
+            printButtonsContainer.classList.toggle('show');
+        }
+
+        function selectAll() {
+            const selectedColumn = selectAllColumnSelect.value;
+            const checkboxesGreen = document.querySelectorAll('.rowCheckboxGreen');
+            const checkboxesRed = document.querySelectorAll('.rowCheckboxRed');
+            const isChecked = !checkboxesGreen[0].checked;
+
+            if (selectedColumn === 'green') {
+                checkboxesGreen.forEach(checkbox => checkbox.checked = isChecked);
+                checkboxesRed.forEach(checkbox => checkbox.checked = false);
+                tableData.forEach(row => {
+                    if (isChecked) {
+                        greenCheckedItems.add(row.id);
+                        redCheckedItems.delete(row.id);
+                    } else {
+                        greenCheckedItems.delete(row.id);
+                    }
+                });
+            } else if (selectedColumn === 'red') {
+                checkboxesRed.forEach(checkbox => checkbox.checked = isChecked);
+                checkboxesGreen.forEach(checkbox => checkbox.checked = false);
+                tableData.forEach(row => {
+                    if (isChecked) {
+                        redCheckedItems.add(row.id);
+                        greenCheckedItems.delete(row.id);
+                    } else {
+                        redCheckedItems.delete(row.id);
+                    }
+                });
+            }
+
+            updateCheckedItems();
+        }
+
+        applyFiltersButton.addEventListener('click', applyFilters);
+        resetFiltersButton.addEventListener('click', resetFilters);
+        exportExcelButton.addEventListener('click', exportToExcel);
+        printButton.addEventListener('click', togglePrintButtons);
+        selectAllButton.addEventListener('click', selectAll);
+        printCheckedGreenButton.addEventListener('click', () => printCheckedItems(Array.from(greenCheckedItems).map(id => tableData.find(row => row.id === id)), "موارد صحیح"));
+        printCheckedRedButton.addEventListener('click', () => printCheckedItems(Array.from(redCheckedItems).map(id => tableData.find(row => row.id === id)), "موارد غلط"));
+        printUncheckedButton.addEventListener('click', printUncheckedItems);
+        printVisibleButton.addEventListener('click', printVisibleItems);
+    </script>
+</body>
+</html>

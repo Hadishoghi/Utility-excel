@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بررسی اقلام غیر FIFO و ویلوکاپ</title>
+    <style>
+        body {
+            font-family: Tahoma, Arial;
+            background: #ffd700;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .container {
+            background: #ff69b4;
+            border: 5px dashed #4b0082;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .upload-box {
+            background: #98fb98;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+
+        .search-box {
+            background: #87ceeb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th, td {
+            border: 2px solid #4b0082;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .red-row {
+            background-color: #ff6b6b;
+        }
+
+        marquee {
+            background: #4b0082;
+            color: white;
+            padding: 10px;
+        }
+
+        input[type="file"], input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            border: 2px solid #4b0082;
+        }
+
+        button {
+            background: #4b0082;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 3px solid #4b0082;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            border-radius: 10px;
+            animation: modalopen 0.5s;
+        }
+
+        .close-btn {
+            background: #ff4d4d; /* رنگ قرمز */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .close-btn:hover {
+            background: #ff1a1a; /* رنگ قرمز تیره‌تر هنگام hover */
+        }
+
+        @keyframes modalopen {
+            from {transform: scale(0)}
+            to {transform: scale(1)}
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+</head>
+<body>
+    <div class="container">
+        <marquee>🌟 سیستم بررسی اقلام غیر FIFO و ویلوکاپ 🌟</marquee>
+        
+        <div class="upload-box">
+            <h2>آپلود فایل اکسل</h2>
+            <input type="file" id="excelFile" accept=".xlsx, .xls">
+            <button onclick="processExcel()">بارگذاری</button>
+        </div>
+
+        <div class="upload-box">
+            <h2>ویلوکاپ</h2>
+            <h3>مرحله ۱: فایل اکسل اول را آپلود کنید</h3>
+            <input type="file" id="file1" accept=".xlsx, .xls" onchange="handleFile1()">
+            <h3>مرحله ۲: فایل اکسل دوم را آپلود کنید</h3>
+            <input type="file" id="file2" accept=".xlsx, .xls" onchange="handleFile2()">
+            <h3>مرحله ۳: تنظیمات ویلوکاپ را مشخص کنید</h3>
+            <div>
+                <label>ستون جستجو در فایل اول:</label>
+                <select id="lookupColumn1"></select>
+            </div>
+            <div>
+                <label>ستون جستجو در فایل دوم:</label>
+                <select id="lookupColumn2"></select>
+            </div>
+            <div>
+                <label>ستون مقدار برگشتی از فایل دوم:</label>
+                <select id="returnColumn"></select>
+            </div>
+            <div>
+                <label>نام ستون جدید:</label>
+                <input type="text" id="newColumnName" placeholder="نام ستون جدید">
+            </div>
+            <button onclick="processFiles()">انجام عملیات ویلوکاپ و اکسپورت فایل</button>
+        </div>
+
+        <div class="search-box">
+            <div>
+                <h2>جستجوی پیشرفته</h2>
+                <input type="text" id="searchInput" placeholder="متن جستجو را وارد کنید">
+                <button onclick="searchItem()">جستجو</button>
+            </div>
+            <button class="export-btn" onclick="showExportModal()">صادر کردن فایل</button>
+        </div>
+
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>کد کالا</th>
+                    <th>بچ</th>
+                    <th>وارده</th>
+                    <th>صادره</th>
+                    <th>مانده</th>
+                    <th>شرح کالا</th>
+                    <th>نام تامین کننده</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="exportModal" class="modal">
+            <div class="modal-content">
+                <h3>فرمت خروجی را انتخاب کنید</h3>
+                <button class="format-btn excel-btn" onclick="exportHighlightedToExcel()">Excel</button>
+                <button class="format-btn pdf-btn" onclick="exportHighlightedToPDF()">PDF</button>
+                <button class="close-btn" onclick="closeExportModal()">انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let globalData = [];
+        let workbook1 = null;
+        let workbook2 = null;
+        let columns1 = [];
+        let columns2 = [];
+        let result = [];
+
+        function handleFile1() {
+            const file = document.getElementById('file1').files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                workbook1 = XLSX.read(data, {type: 'array'});
+
+                const sheet = workbook1.Sheets[workbook1.SheetNames[0]];
+                const data1 = XLSX.utils.sheet_to_json(sheet);
+                if (data1.length > 0) {
+                    columns1 = Object.keys(data1[0]);
+                    updateColumnSelects();
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function handleFile2() {
+            const file = document.getElementById('file2').files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                workbook2 = XLSX.read(data, {type: 'array'});
+
+                const sheet = workbook2.Sheets[workbook2.SheetNames[0]];
+                const data2 = XLSX.utils.sheet_to_json(sheet);
+                if (data2.length > 0) {
+                    columns2 = Object.keys(data2[0]);
+                    updateColumnSelects();
+                }
+            };
+
+            reader.readAsArrayBuffer(file);
+        }
+
+        function updateColumnSelects() {
+            const lookupSelect1 = document.getElementById('lookupColumn1');
+            const lookupSelect2 = document.getElementById('lookupColumn2');
+            const returnSelect = document.getElementById('returnColumn');
+
+            if (!columns1.length || !columns2.length) return;
+
+            lookupSelect1.style.display = 'block';
+            lookupSelect2.style.display = 'block';
+            returnSelect.style.display = 'block';
+
+            lookupSelect1.innerHTML = '<option value="">انتخاب ستون</option>';
+            columns1.forEach(column => {
+                const option = document.createElement('option');
+                option.value = column;
+                option.textContent = column;
+                lookupSelect1.appendChild(option);
+            });
+
+            lookupSelect2.innerHTML = '<option value="">انتخاب ستون</option>';
+            returnSelect.innerHTML = '<option value="">انتخاب ستون</option>';
+            columns2.forEach(column => {
+                const option1 = document.createElement('option');
+                option1.value = column;
+                option1.textContent = column;
+                lookupSelect2.appendChild(option1);
+
+                const option2 = document.createElement('option');
+                option2.value = column;
+                option2.textContent = column;
+                returnSelect.appendChild(option2);
+            });
+        }
+
+        function processFiles() {
+            if (!workbook1 || !workbook2) {
+                alert("لطفا هر دو فایل اکسل را آپلود کنید!");
+                return;
+            }
+
+            const lookupColumn1 = document.getElementById('lookupColumn1').value;
+            const lookupColumn2 = document.getElementById('lookupColumn2').value;
+            const returnColumn = document.getElementById('returnColumn').value;
+            const newColumnName = document.getElementById('newColumnName').value || 'نتیجه_ویلوکاپ';
+
+            if (!lookupColumn1 || !lookupColumn2 || !returnColumn) {
+                alert("لطفا تمام ستون‌ها را انتخاب کنید!");
+                return;
+            }
+
+            const sheet1 = workbook1.Sheets[workbook1.SheetNames[0]];
+            const sheet2 = workbook2.Sheets[workbook2.SheetNames[0]];
+
+            const data1 = XLSX.utils.sheet_to_json(sheet1);
+            const data2 = XLSX.utils.sheet_to_json(sheet2);
+
+            result = data1.map(row => {
+                const lookupValue = row[lookupColumn1];
+                const matchingRow = data2.find(r => r[lookupColumn2] === lookupValue);
+                return {
+                    ...row,
+                    [newColumnName]: matchingRow ? matchingRow[returnColumn] : 'نتیجه یافت نشد'
+                };
+            });
+
+            exportToExcel(result);
+        }
+
+        function exportToExcel(result) {
+            const ws = XLSX.utils.json_to_sheet(result);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Results");
+            XLSX.writeFile(wb, "vlookup_result.xlsx");
+        }
+
+        function processExcel() {
+            const file = document.getElementById('excelFile').files[0];
+            if (!file) {
+                alert('لطفا یک فایل انتخاب کنید');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                
+                const range = XLSX.utils.decode_range(firstSheet['!ref']);
+                const jsonData = [];
+
+                for(let R = range.s.r + 1; R <= range.e.r; R++) {
+                    const row = {};
+                    
+                    const itemCode = firstSheet[XLSX.utils.encode_cell({r: R, c: 0})];
+                    const batch = firstSheet[XLSX.utils.encode_cell({r: R, c: 1})];
+                    const input = firstSheet[XLSX.utils.encode_cell({r: R, c: 2})];
+                    const output = firstSheet[XLSX.utils.encode_cell({r: R, c: 3})];
+                    const remaining = firstSheet[XLSX.utils.encode_cell({r: R, c: 4})];
+                    const description = firstSheet[XLSX.utils.encode_cell({r: R, c: 5})];
+                    const supplier = firstSheet[XLSX.utils.encode_cell({r: R, c: 6})];
+
+                    row['کد کالا'] = itemCode ? itemCode.v : '';
+                    row['بچ'] = batch ? batch.v : '';
+                    row['وارده'] = input ? input.v : 0;
+                    row['صادره'] = output ? output.v : 0;
+                    row['مانده'] = remaining ? remaining.v : 0;
+                    row['شرح کالا'] = description ? description.v : '';
+                    row['نام تامین کننده'] = supplier ? supplier.v : '';
+
+                    jsonData.push(row);
+                }
+
+                globalData = jsonData.sort((a, b) => {
+                    if (a['کد کالا'].toString() === b['کد کالا'].toString()) {
+                        return parseFloat(b['بچ']) - parseFloat(a['بچ']);
+                    }
+                    return a['کد کالا'].toString().localeCompare(b['کد کالا'].toString());
+                });
+
+                displayData(globalData);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function searchItem() {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            if (!searchValue) {
+                displayData(globalData);
+                return;
+            }
+
+            const filteredData = globalData.filter(item => 
+                Object.values(item).some(value => 
+                    value.toString().toLowerCase().includes(searchValue)
+                )
+            );
+            displayData(filteredData);
+        }
+
+        function displayData(data) {
+            const tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = '';
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                
+                const isNonFifo = checkNonFifo(data, row);
+                if (isNonFifo) {
+                    tr.classList.add('red-row');
+                }
+
+                tr.innerHTML = `
+                    <td>${row['کد کالا']}</td>
+                    <td>${row['بچ']}</td>
+                    <td>${row['وارده']}</td>
+                    <td>${row['صادره']}</td>
+                    <td>${row['مانده']}</td>
+                    <td>${row['شرح کالا']}</td>
+                    <td>${row['نام تامین کننده']}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function checkNonFifo(data, currentRow) {
+            if (!currentRow['صادره']) return false;
+            
+            const sameCodeItems = data.filter(item => 
+                item['کد کالا'].toString() === currentRow['کد کالا'].toString()
+            );
+            
+            if (parseFloat(currentRow['صادره']) > 0) {
+                const currentIndex = sameCodeItems.findIndex(item => 
+                    item['بچ'].toString() === currentRow['بچ'].toString()
+                );
+                
+                for (let i = currentIndex + 1; i < sameCodeItems.length; i++) {
+                    if (parseFloat(sameCodeItems[i]['مانده']) > 0) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function getHighlightedRows() {
+            const highlightedRows = [];
+            const rows = document.querySelectorAll('#dataTable tbody tr.red-row');
+            
+            rows.forEach(row => {
+                const rowData = {
+                    'کد کالا': row.cells[0].innerText,
+                    'بچ': row.cells[1].innerText,
+                    'وارده': row.cells[2].innerText,
+                    'صادره': row.cells[3].innerText,
+                    'مانده': row.cells[4].innerText,
+                    'شرح کالا': row.cells[5].innerText,
+                    'نام تامین کننده': row.cells[6].innerText
+                };
+                highlightedRows.push(rowData);
+            });
+
+            return highlightedRows;
+        }
+
+        function exportHighlightedToExcel() {
+            const highlightedRows = getHighlightedRows();
+            if (highlightedRows.length === 0) {
+                alert('هیچ مورد هایلایت شده‌ای برای صادر کردن وجود ندارد.');
+                return;
+            }
+
+            const worksheet = XLSX.utils.json_to_sheet(highlightedRows);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, 'Non-FIFO Items');
+            XLSX.writeFile(workbook, 'Non-FIFO-Items.xlsx');
+            closeExportModal();
+        }
+
+        function exportHighlightedToPDF() {
+            const highlightedRows = getHighlightedRows();
+            if (highlightedRows.length === 0) {
+                alert('هیچ مورد هایلایت شده‌ای برای صادر کردن وجود ندارد.');
+                return;
+            }
+
+            pdfMake.fonts = {
+                Tahoma: {
+                    normal: 'https://cdn.jsdelivr.net/gh/rastikerdar/tahoma-font@v1.0.2/Tahoma.ttf',
+                    bold: 'https://cdn.jsdelivr.net/gh/rastikerdar/tahoma-font@v1.0.2/Tahoma-Bold.ttf',
+                }
+            };
+
+            const docDefinition = {
+                content: [
+                    { text: 'لیست اقلام غیر FIFO', style: 'header' },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+                            body: [
+                                ['کد کالا', 'بچ', 'وارده', 'صادره', 'مانده', 'شرح کالا', 'نام تامین کننده'],
+                                ...highlightedRows.map(row => [
+                                    row['کد کالا'],
+                                    row['بچ'],
+                                    row['وارده'],
+                                    row['صادره'],
+                                    row['مانده'],
+                                    row['شرح کالا'],
+                                    row['نام تامین کننده']
+                                ])
+                            ]
+                        }
+                    }
+                ],
+                defaultStyle: {
+                    font: 'Tahoma'
+                },
+                styles: {
+                    header: {
+                        fontSize: 18,
+                        bold: true,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 10]
+                    }
+                }
+            };
+
+            pdfMake.createPdf(docDefinition).download('Non-FIFO-Items.pdf');
+            closeExportModal();
+        }
+
+        function showExportModal() {
+            const modal = document.getElementById('exportModal');
+            modal.style.display = 'block';
+        }
+
+        function closeExportModal() {
+            const modal = document.getElementById('exportModal');
+            modal.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
